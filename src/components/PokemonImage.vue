@@ -3,17 +3,11 @@
     <!-- objetivo: mostrar la imagen/es -->
 
     <img
-      v-if="!mostrar"
-      class="ocultar"
+      :class= "{ ocultar: !mostrarImagen }"
       v-bind:src="imagenFuente"
       alt="No se puede renderizar la imagen del pokemon"
     />
 
-    <img
-      v-if="mostrar"
-      :src="imagenFuente"
-      alt="No se puede renderizar la imagen del pokemon"
-    />
   </div>
 </template>
 
@@ -23,6 +17,11 @@ export default {
     pokemonId: {
       type: Number,
       required: true,
+    },
+    pokemonNombre: {
+      type: String,
+      required: false,
+      default: "",
     },
     mostrarImagen: {
       type: Boolean,
@@ -39,7 +38,9 @@ export default {
     return {
       mostrar: this.mostrarImagen,
     };
-  },
+  },mounted() {
+    console.log(`Nombre: ${this.pokemonNombre}, ID: ${this.pokemonId}`);
+  }
 };
 </script>
 
@@ -48,7 +49,7 @@ img {
     height: 200px;
     /* atras de la imagen con la clase ocultar */
     position: absolute;
-    right: 42%;
+    right: 35%;
 }
 
 .ocultar {

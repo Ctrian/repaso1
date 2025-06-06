@@ -1,7 +1,7 @@
 <template>
   <div class="image-container">
     <div class="imagenes">
-      <div v-for="pokemon in pokemons" :key="pokemon.id" class="pokemon-card">
+      <div v-for="(pokemon, idx) in pokemons" :key="pokemon.id + '-' + idx" class="pokemon-card">
         <img
           :src="
             mostrar ? getPokemonUrl(pokemon.id) : 'https://placehold.co/250x250'
@@ -11,7 +11,7 @@
         />
 
         <div class="pokemon-nombre">
-          {{ pokemon.nombre }}
+          {{ mostrar ? pokemon.nombre : 'XXXXXX' }}
         </div>
       </div>
     </div>
@@ -29,11 +29,6 @@ export default {
       type: Boolean,
       required: true,
     },
-  },
-  data() {
-    return {
-      mostrar: false,
-    };
   },
   methods: {
     getPokemonUrl(id) {
@@ -67,5 +62,10 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.pokemon-nombre {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
 }
 </style>

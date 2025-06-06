@@ -1,62 +1,71 @@
 <template>
   <div class="image-container">
-    <!-- objetivo: mostrar la imagen/es -->
+    <div class="imagenes">
+      <div v-for="pokemon in pokemons" :key="pokemon.id" class="pokemon-card">
+        <img
+          :src="
+            mostrar ? getPokemonUrl(pokemon.id) : 'https://placehold.co/250x250'
+          "
+          alt="Imagen del pokemon"
+          class="pokemon-img"
+        />
 
-    <img
-      :class= "{ ocultar: !mostrarImagen }"
-      v-bind:src="imagenFuente"
-      alt="No se puede renderizar la imagen del pokemon"
-    />
-
+        <div class="pokemon-nombre">
+          {{ pokemon.nombre }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    pokemonId: {
-      type: Number,
+    pokemons: {
+      type: Array,
       required: true,
     },
-    pokemonNombre: {
-      type: String,
-      required: false,
-      default: "",
-    },
-    mostrarImagen: {
+    mostrar: {
       type: Boolean,
       required: true,
-      default: false,
-    },
-  },
-  computed: {
-    imagenFuente() {
-      return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${this.pokemonId}.svg`;
     },
   },
   data() {
     return {
-      mostrar: this.mostrarImagen,
+      mostrar: false,
     };
-  },mounted() {
-    console.log(`Nombre: ${this.pokemonNombre}, ID: ${this.pokemonId}`);
-  }
+  },
+  methods: {
+    getPokemonUrl(id) {
+      return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`;
+    },
+  },
 };
 </script>
 
 <style>
-img {
-    height: 200px;
-    /* atras de la imagen con la clase ocultar */
-    position: absolute;
-    right: 35%;
+.imagenes {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 20px;
 }
-
-.ocultar {
-    filter: brightness(0);
+.pokemon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
+.pokemon-img {
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+}
 .image-container {
-    height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>
